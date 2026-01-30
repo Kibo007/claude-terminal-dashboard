@@ -1,7 +1,7 @@
 ---
 name: "Claude Terminal + Dashboard"
 description: "Claude Code CLI with OpenClaw Gateway - Port 18789 exposed for dashboard"
-version: "1.6.2"
+version: "1.6.3"
 slug: "claude_terminal_dashboard"
 init: false
 arch:
