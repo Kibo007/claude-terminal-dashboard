@@ -1,34 +1,30 @@
 #!/usr/bin/with-contenv bashio
 set -e
 
-# Configuration
-CONFIG_DIR="/data/.config/claude"
-PERSISTENT_HOME="/data/home"
+bashio::log.info "Installing dependencies..."
+apk add --no-cache nodejs npm ttyd
 
 # Setup directories
-mkdir -p "${CONFIG_DIR}"
-mkdir -p "${PERSISTENT_HOME}"
+mkdir -p /data/.config/claude
+mkdir -p /data/home
 
-# Set environment
-export ANTHROPIC_CONFIG_DIR="${CONFIG_DIR}"
-export HOME="${PERSISTENT_HOME}"
+export HOME="/data/home"
 export PATH="${HOME}/.local/bin:${PATH}"
 
 bashio::log.info "Starting OpenClaw Gateway on port 18789..."
 
-# Start gateway in background
+# Start gateway
+cd /config/clawdbot
 if [ -f /config/clawdbot/clawdbot-src/dist/bin/openclaw-gateway.js ]; then
-    cd /config/clawdbot
     node /config/clawdbot/clawdbot-src/dist/bin/openclaw-gateway.js &
-    sleep 3
-    bashio::log.info "Gateway started!"
+    sleep 5
+    bashio::log.info "Gateway started on port 18789!"
 else
-    bashio::log.warning "Gateway not found, skipping..."
+    bashio::log.error "Gateway not found at /config/clawdbot/clawdbot-src/dist/bin/openclaw-gateway.js"
 fi
 
 bashio::log.info "Starting web terminal on port 7682..."
 
-# Start terminal
 exec ttyd \
     --port 7682 \
     --writable \
