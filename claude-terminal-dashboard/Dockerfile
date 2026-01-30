@@ -1,7 +1,7 @@
 ARG BUILD_FROM
 FROM ${BUILD_FROM}
 
-# Install system packages and development tools
+# Install system packages including ttyd for terminal
 RUN apk add --no-cache \
     bash \
     curl \
@@ -10,31 +10,20 @@ RUN apk add --no-cache \
     npm \
     python3 \
     py3-pip \
-    py3-requests \
-    py3-aiohttp \
-    py3-yaml \
-    py3-beautifulsoup4 \
     git \
     vim \
     wget \
     jq \
     tree \
-    yq
+    ttyd \
+    pnpm
 
-# Install Claude Code CLI using native installer
-# The installer places the binary in ~/.local/bin
-RUN curl -fsSL https://claude.ai/install.sh | bash \
-    && ln -sf /root/.local/bin/claude /usr/local/bin/claude
-
-# Create directory for Claude configuration and set working directory
+# Create directories
 RUN mkdir -p /config/claude-config
 WORKDIR /config
 
-# Copy startup script and modular scripts
+# Copy startup script
 COPY run.sh /run.sh
-COPY scripts/ /opt/scripts/
-RUN chmod +x /run.sh \
-    && chmod +x /opt/scripts/*.sh
+RUN chmod +x /run.sh
 
-# Use exec form for better signal handling
 CMD ["/run.sh"]
