@@ -1,7 +1,7 @@
 ---
 name: "Claude Terminal + Dashboard"
 description: "Claude Code CLI with OpenClaw Gateway - Port 18789 exposed for dashboard"
-version: "1.6.1"
+version: "1.6.2"
 slug: "claude_terminal_dashboard"
 init: false
 arch:
@@ -10,15 +10,15 @@ arch:
   - armv7
 url: "https://github.com/anthropics/claude-code"
 ingress: true
-ingress_port: 7681
-panel_icon: mdi:code-braces
+ingress_port: 7682
+panel_icon: mdi:view-dashboard
 panel_title: "Claude Dashboard"
 panel_admin: true
 ports:
-  7681/tcp: 7681
+  7682/tcp: 7682
   18789/tcp: 18789
 ports_description:
-  7681/tcp: "Web terminal"
+  7682/tcp: "Web terminal"
   18789/tcp: "OpenClaw Gateway + Dashboard"
 options:
   auto_launch_claude: true
@@ -37,4 +37,4 @@ hassio_role: manager
 homeassistant_api: true
 auth_api: true
 startup: services
-webui: http://[HOST]:[PORT:7681]/
+webui: http://[HOST]:[PORT:7682]/
